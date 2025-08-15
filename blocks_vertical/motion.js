@@ -48,6 +48,52 @@ Blockly.Blocks['motion_movesteps'] = {
   }
 };
 
+Blockly.Blocks['motion_jump'] = {
+  init: function() {
+    this.jsonInit({
+      "message0": "jump %1 steps",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "STEPS"
+        }
+      ],
+      "category": Blockly.Categories.motion,
+      "extensions": ["colours_motion", "shape_statement"]
+    });
+  }
+};
+
+// 📦 scratch-blocks/blocks_common/index.js
+import './jump.js';
+
+
+// ⚙️ scratch-vm/src/blocks/scratch3_motion.js
+const Cast = require('../util/cast'); // Add at top with other imports
+
+// Inside getPrimitives() method:
+'motion_jump': this.jump,
+
+// Add this method to the Scratch3MotionBlocks class:
+jump(args, util) {
+  const steps = Cast.toNumber(args.STEPS);
+  util.target.setY(util.target.y + steps);
+}
+
+
+// Add this inside the "blocks" array:
+{
+  "opcode": "motion_jump",
+  "blockType": "command",
+  "text": "jump [STEPS] steps",
+  "arguments": {
+    "STEPS": {
+      "type": "number",
+      "defaultValue": 10
+    }
+  }
+}
+
 Blockly.Blocks['motion_turnright'] = {
   /**
    * Block to turn right.
